@@ -15,42 +15,42 @@ export default function TodoApp() {
   }, [])
 
   const fetchTodos = async () => {
-    const response = await fetch('http://127.0.0.1:8000/todos/')
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/todos/`)
     const data = await response.json()
     setTodos(data)
   }
-
+  
   const createTodo = async (e) => {
     e.preventDefault()
     if (!newTodo.trim()) return
-
-    const response = await fetch('http://127.0.0.1:8000/todos/', {
+  
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/todos/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: newTodo })
     })
-
+  
     if (response.ok) {
       setNewTodo('')
       fetchTodos()
     }
   }
-
+  
   const markAsDone = async (id) => {
-    const response = await fetch(`http://127.0.0.1:8000/todos/${id}/mark-as-done/`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/todos/${id}/mark-as-done/`, {
       method: 'POST'
     })
-
+  
     if (response.ok) {
       fetchTodos()
     }
   }
-
+  
   const deleteTodo = async (id) => {
-    const response = await fetch(`http://127.0.0.1:8000/todos/${id}/`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/todos/${id}/`, {
       method: 'DELETE'
     })
-
+  
     if (response.ok) {
       fetchTodos()
     }
